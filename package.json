@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "pretest": "eslint ."
+    "lint": "eslint .",
+    "db:drop": "node scripts/drop.js"
   },
   "author": "Michal G",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^5.5.0",
-    "eslint-config-strongloop": "^2.1.0"
+    "eslint-config-strongloop": "^2.1.0",
+    "inquirer": "^6.2.0"
   },
   "dependencies": {
     "dotenv": "^6.0.0",
