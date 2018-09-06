@@ -4,11 +4,11 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-router.use(bodyParser.urlencoded({ extended: true }));
-router.use(bodyParser.json());
-
 const Mailer = require('../mailer/index');
 const ConfirmationMailBuilder = require('../mailer/ConfirmationMailBuilder');
+
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json());
 
 const User = require('../models/User');
 
