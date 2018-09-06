@@ -11,7 +11,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
 function updateUserConfirmField(res, id) {
-  User.findByIdAndUpdate(id, { confirmed: false }, (updateError, user) => {
+  User.findByIdAndUpdate(id, { confirmed: true }, (updateError, user) => {
     if (updateError) {
       res.status(500).send(
         'There was a problem with updating user confirmation.'
