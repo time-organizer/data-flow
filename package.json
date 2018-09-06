@@ -16,8 +16,10 @@
     "inquirer": "^6.2.0"
   },
   "dependencies": {
+    "bcrypt": "^3.0.0",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
+    "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.2.13",
     "require": "^2.4.20"
   }
