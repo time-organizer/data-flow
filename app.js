@@ -4,6 +4,9 @@ const app = express();
 
 require('./db/index');
 
+const authRoutes = require('./app/auth/AuthController');
+app.use('/auth', authRoutes);
+
 const apiRoutes = require('./app/routes/api');
 app.use('/api', apiRoutes);
 
