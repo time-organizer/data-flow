@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 
 function sendMail(recipientAddress, mailContent) {
-  nodemailer.createTestAccount((err, account) => {
+  nodemailer.createTestAccount(() => {
     let transporter = nodemailer.createTransport({
       host: 'miriloth.nazwa.pl',
       port: 587,
@@ -13,19 +13,17 @@ function sendMail(recipientAddress, mailContent) {
     });
 
     let mailOptions = {
-      from: '"Time organizer" <time-organizer@michal-g.pl>', // sender address
+      from: '"Time organizer" <time-organizer@michal-g.pl>',
       to: recipientAddress,
-      subject: 'Hello ✔',
-      text: 'Hello world?',
+      subject: 'Time organizer - confirmation',
       html: mailContent,
     };
 
-    transporter.sendMail(mailOptions, (error, info) => {
+    transporter.sendMail(mailOptions, (error) => {
       if (error) {
         return console.log(error);
       }
-      console.log('Message sent: %s', info.messageId);
-      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+      console.log('Message sent');
     });
   });
 }
