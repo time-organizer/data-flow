@@ -3,12 +3,12 @@ const nodemailer = require('nodemailer');
 function sendMail(recipientAddress, mailContent) {
   nodemailer.createTestAccount(() => {
     let transporter = nodemailer.createTransport({
-      host: 'miriloth.nazwa.pl',
+      host: process.env.MAIL_HOST,
       port: 587,
       secure: false,
       auth: {
-        user: 'time-organizer@miriloth.nazwa.pl',
-        pass: 'Abcdabcd123',
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASSWORD,
       },
     });
 
