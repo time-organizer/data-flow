@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha \"test/**/*.test.js\"",
     "lint": "eslint .",
-    "db:drop": "node scripts/drop.js"
+    "db:drop": "node scripts/drop.js",
+    "start": "node server.js"
   },
   "author": "Michal G",
   "license": "ISC",
@@ -18,11 +19,15 @@
   "dependencies": {
     "bcrypt": "^3.0.0",
     "body-parser": "^1.18.3",
+    "chai": "^4.1.2",
+    "cors": "^2.8.4",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.3.0",
+    "mocha": "^5.2.0",
     "mongoose": "^5.2.8",
     "nodemailer": "^4.6.8",
-    "require": "^2.4.20"
+    "require": "^2.4.20",
+    "sinon": "^6.2.0"
   }
 }
