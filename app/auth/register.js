@@ -12,7 +12,22 @@ router.use(bodyParser.json());
 
 const User = require('../models/User');
 
-router.post('/register', (req, res) => {
+const checkIfUserExists = (req, res, next) => {
+  const { email } = req.body;
+
+  User.find({ email }).then(users => {
+    if (users.length) {
+      return res.status(409).send('User with this email already exists');
+    }
+
+    next();
+  })
+    .catch(() => {
+      return res.status(500).send('Could not add new user to the database');
+    });
+};
+
+router.post('/register', checkIfUserExists, (req, res) => {
   const hashedPassword = bcrypt.hashSync(req.body.password, 8);
   const { name, email } = req.body;
 
