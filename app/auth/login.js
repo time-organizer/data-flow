@@ -14,20 +14,20 @@ router.post('/login', (req, res) => {
 
   User.findOne({ email: email }, (err, user) => {
     if (err) {
-      return res.status(500).send('Error on the server.');
+      return res.status(500).send('Server error.');
     }
 
     if (!user) {
-      return res.status(404).send('No user found.');
+      return res.status(404).send('User not found.');
     }
 
     const passwordIsValid = bcrypt.compareSync(password, user.password);
     if (!passwordIsValid) {
-      return res.status(401).send({ auth: false, token: null });
+      return res.status(401).send('Invalid credentials');
     }
 
     if (!user.confirmed) {
-      return res.status(403).send({ auth: false, token: null, user: user });
+      return res.status(403).send('User not confirmed');
     }
 
     const token = jwt.sign(
@@ -37,7 +37,7 @@ router.post('/login', (req, res) => {
       }
     );
 
-    res.status(200).send({ auth: true, token: token });
+    res.status(200).send({ token });
   });
 });
 

@@ -27,7 +27,7 @@ const checkIfUserExists = (req, res, next) => {
     });
 };
 
-router.post('/register', checkIfUserExists, (req, res) => {
+router.post('/sign-up', checkIfUserExists, (req, res) => {
   const hashedPassword = bcrypt.hashSync(req.body.password, 8);
   const { name, email } = req.body;
 
@@ -35,18 +35,19 @@ router.post('/register', checkIfUserExists, (req, res) => {
     name,
     email,
     password: hashedPassword,
-    confirmed: false,
+    confirmed: process.env.NODE_ENV === 'dev',
+    createdAt: new Date(),
   })
     .then((user) => {
-      res.status(200).send(user);
-
       const token = jwt.sign(
         { id: user._id },
         process.env.JWT_SECRET,
         { expiresIn: 86400 });
 
-      const mailContent = ConfirmationMailBuilder.buildMail(user.name, token);
-      Mailer.sendMail('Miriloth@gmail.com', mailContent);
+      res.status(200).send({ token });
+
+      // const mailContent = ConfirmationMailBuilder.buildMail(user.name, token);
+      // Mailer.sendMail(user.email, mailContent);
     })
     .catch(() => {
       return res.status(500).send('Could not add new user to the database');

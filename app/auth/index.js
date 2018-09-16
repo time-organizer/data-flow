@@ -1,11 +1,11 @@
 const express = require('express');
 
-const register = require('./register');
+const signUp = require('./signUp');
 const confirm = require('./confirm');
 const login = require('./login');
 const app = express();
 
-app.use(register);
+app.use(signUp);
 app.use(confirm);
 app.use(login);
 

@@ -27,7 +27,6 @@ router.get('/confirm/:token', (req, res) => {
   jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
     if (error) {
       return res.status(401).send({
-        auth: false,
         message: 'Failed to authenticate token.',
       });
     }
