@@ -13,9 +13,9 @@ router.use(bodyParser.json());
 function updateUserConfirmField(res, id) {
   User.findByIdAndUpdate(id, { confirmed: true }, (updateError, user) => {
     if (updateError) {
-      res.status(500).send(
-        'There was a problem with updating user confirmation.'
-      );
+      res.status(500).send({
+        message: 'There was a problem with updating user confirmation.',
+      });
     }
     res.status(200).send(user);
   });
@@ -46,7 +46,7 @@ router.get('/confirm/resend/:id', (req, res) => {
   const mailContent = ConfirmationMailBuilder.buildResentMail(token);
   Mailer.sendMail('Miriloth@gmail.com', mailContent);
 
-  res.status(200).send('Confirmation email was resent');
+  res.status(200).send({ message: 'Confirmation email was resent' });
 });
 
 module.exports = router;

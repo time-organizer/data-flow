@@ -4,6 +4,7 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   confirmed: Boolean,
+  createdAt: { type: Date, required: true },
 });
 
 mongoose.model('User', UserSchema);

@@ -17,13 +17,17 @@ const checkIfUserExists = (req, res, next) => {
 
   User.find({ email }).then(users => {
     if (users.length) {
-      return res.status(409).send('User with this email already exists');
+      return res.status(409).send({
+        message: 'User with this email already exists',
+      });
     }
 
     next();
   })
     .catch(() => {
-      return res.status(500).send('Could not add new user to the database');
+      return res.status(500).send({
+        message: 'Could not add new user to the database',
+      });
     });
 };
 
@@ -49,8 +53,10 @@ router.post('/sign-up', checkIfUserExists, (req, res) => {
       // const mailContent = ConfirmationMailBuilder.buildMail(user.name, token);
       // Mailer.sendMail(user.email, mailContent);
     })
-    .catch(() => {
-      return res.status(500).send('Could not add new user to the database');
+    .catch((error) => {
+      return res.status(500).send({
+        message: 'Could not add new user to the database',
+      });
     });
 });
 
