@@ -38,7 +38,7 @@ router.post('/login', (req, res) => {
     );
 
     res.status(200).send({ token });
-  });
+  }).select('+password');
 });
 
 module.exports = router;
