@@ -23,12 +23,17 @@
     "cors": "^2.8.4",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
+    "formidable": "^1.2.1",
+    "gm": "^1.23.1",
     "jsonwebtoken": "^8.3.0",
+    "lodash": "^4.17.11",
     "mocha": "^5.2.0",
     "mongoose": "^5.2.8",
     "morgan": "^1.9.1",
     "nodemailer": "^4.6.8",
     "require": "^2.4.20",
-    "sinon": "^6.2.0"
+    "serve-static": "^1.13.2",
+    "sinon": "^6.2.0",
+    "uuid": "^3.3.2"
   }
 }

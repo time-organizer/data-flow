@@ -18,7 +18,7 @@ router.post('/login', (req, res) => {
     }
 
     if (!user) {
-      return res.status(404).send('User not found.');
+      return res.status(404).send({ message: 'User not found' });
     }
 
     const passwordIsValid = bcrypt.compareSync(password, user.password);
@@ -38,7 +38,7 @@ router.post('/login', (req, res) => {
     );
 
     res.status(200).send({ token });
-  });
+  }).select('+password');
 });
 
 module.exports = router;
