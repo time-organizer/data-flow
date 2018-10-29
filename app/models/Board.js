@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
   participants: { type: Array },
   columns: { type: Array },
   ownerId: { type: String, required: true },
-  theme: { type: String },
+  theme: { type: Number },
 });
 
 mongoose.model('Board', UserSchema);
