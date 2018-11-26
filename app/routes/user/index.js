@@ -29,7 +29,7 @@ function replaceUserAvatar(res, id, path) {
         if (oldAvatar) {
           fs.unlink(`./assets/${id}/${oldAvatar.assetId}`, error => {
             if (error) {
-              console.warn('File doesnt exist');
+              console.warn('File doesn\'t exist');
             }
           });
         }
@@ -68,6 +68,33 @@ router.put('/avatar', verifyToken, (req, res) => {
         }
       });
     });
+  });
+});
+
+router.delete('/avatar', verifyToken, (req, res) => {
+  const { userId } = req;
+
+  User.findById(userId, (findError, user) => {
+    const oldAvatar = _.get(user, 'avatar', null);
+    if (!oldAvatar) {
+      return res.status(409).send({ message: 'Avatar does not exist' });
+    }
+
+    User.update({ _id: userId }, { $unset: { avatar: 1 } })
+      .then(() => {
+        res.status(200).send({ message: 'Avatar deleted successfully' });
+
+        fs.unlink(`./assets/${userId}/${oldAvatar.assetId}`, error => {
+          if (error) {
+            console.warn('File doesn\'t exist');
+          }
+        });
+      })
+      .catch(() => {
+        res.status(500).send({
+          message: 'Something went wrong with deleting an avatar',
+        });
+      });
   });
 });
 
