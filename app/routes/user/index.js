@@ -3,7 +3,6 @@ const router = express.Router();
 const formidable = require('formidable');
 const _ = require('lodash');
 const fs = require('fs');
-const gm = require('gm');
 const uuid = require('uuid');
 const User = require('../../models/User');
 const verifyToken = require('../../middlewares/verifyToken');
@@ -59,13 +58,8 @@ router.put('/avatar', verifyToken, (req, res) => {
         throw err;
       }
 
-      gm(newPath).size((err, size) => {
-        if (!err) {
-          replaceUserAvatar(res, userId, {
-            assetId,
-            size,
-          });
-        }
+      replaceUserAvatar(res, userId, {
+        assetId,
       });
     });
   });
