@@ -9,7 +9,9 @@ router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
 router.get('/boards', verifyToken, (req, res) => {
-  Board.find({})
+  const { userId } = req;
+
+  Board.find({ ownerId: userId })
     .then(boards => {
       res.status(200).send(boards);
     })
