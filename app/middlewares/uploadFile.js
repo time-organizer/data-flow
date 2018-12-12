@@ -3,9 +3,11 @@ const fs = require('fs');
 const { Storage } = require('@google-cloud/storage');
 const uuidv4 = require('uuidv4');
 
+const { GCS_CREDENTIALS_PATH } = process.env;
+
 const storage = new Storage({
   projectId: 'time-organizer-223723',
-  keyFilename: 'time-organizer-455091793226.json',
+  keyFilename: GCS_CREDENTIALS_PATH,
 });
 
 const bucket = storage.bucket('time-organizer');
