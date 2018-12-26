@@ -1,4 +1,14 @@
 require('dotenv').config();
+const fs = require('fs');
+
+const content = process.env.GCAUTH;
+
+fs.writeFile('google.json', content, (err) => {
+  if (err) throw err;
+
+  console.log('Google auth creeated successfully!');
+});
+
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
