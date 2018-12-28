@@ -26,9 +26,9 @@ router.post('/login', (req, res) => {
       return res.status(401).send({ message: 'Invalid credentials' });
     }
 
-    if (!user.confirmed) {
-      return res.status(403).send({ message: 'User not confirmed' });
-    }
+    // if (!user.confirmed) {
+    //   return res.status(403).send({ message: 'User not confirmed' });
+    // }
 
     const token = jwt.sign(
       { id: user._id },
