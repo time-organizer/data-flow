@@ -2,6 +2,7 @@ const formidable = require('formidable');
 const fs = require('fs');
 const { Storage } = require('@google-cloud/storage');
 const uuidv4 = require('uuidv4');
+const config = require('../config');
 
 const { GCS_CREDENTIALS_PATH } = process.env;
 
@@ -25,21 +26,28 @@ const uploadFile = (req, res, next) => {
       res.status(500).send({ message: 'Could not parse file' });
     }
 
-    fs.createReadStream(file.path)
-      .pipe(files.createWriteStream({
-        metadata: {
-          contentType: file.type,
-        },
-      }))
-      .on('error', () => {
-        res.status(500).send({
-          message: 'There was a problem with updating the file',
+    const fileStats = fs.statSync(file.path);
+    const fileSize = fileStats.size / 1000000.0;
+
+    if (fileSize < config.MAX_FILE_SIZE) {
+      fs.createReadStream(file.path)
+        .pipe(files.createWriteStream({
+          metadata: {
+            contentType: file.type,
+          },
+        }))
+        .on('error', () => {
+          res.status(500).send({
+            message: 'There was a problem with updating the file',
+          });
+        })
+        .on('finish', () => {
+          req.assetId = `${URL_BASE}${fileName}`;
+          next();
         });
-      })
-      .on('finish', () => {
-        req.assetId = `${URL_BASE}${fileName}`;
-        next();
-      });
+    } else {
+      res.status(413).send({ message: 'File size is higher than 1mb' });
+    }
   });
 };
 
