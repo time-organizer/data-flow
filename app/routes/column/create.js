@@ -33,19 +33,25 @@ function checkNumberOfColumns(req, res, next) {
 function updateBoardsColumns(req, res, column) {
   const { _id, boardId, title } = column;
 
-  Board.findByIdAndUpdate(boardId, {
-    $push: {
-      columns: {
-        _id,
-        title,
-      },
-    },
-  }, { new: true })
-    .then(updatedBoard => {
-      res.status(200).send(updatedBoard);
+  Board.findById(boardId)
+    .then(board => {
+      board.columns = {
+        ...board.columns,
+        [_id]: {
+          _id,
+          title,
+        }
+      };
+
+      board.save()
+        .then(updatedBoard => res.status(200).send(updatedBoard))
+        .catch(error => {
+          logger.error(error);
+          throw error;
+        });
     })
-    .catch((e) => {
-      logger.error(e);
+    .catch(error => {
+      logger.error(error);
       Column.deleteOne({ _id })
         .then(() => {
           res.status(400).send({
