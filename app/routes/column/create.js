@@ -40,8 +40,10 @@ function updateBoardsColumns(req, res, column) {
         [_id]: {
           _id,
           title,
-        }
+        },
       };
+
+      board.columnsOrder.push(_id);
 
       board.save()
         .then(updatedBoard => res.status(200).send(updatedBoard))

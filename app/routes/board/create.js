@@ -38,7 +38,8 @@ router.post('/boards', verifyToken, checkNumberOfboards, (req, res) => {
   const newBoard = {
     title,
     theme,
-    columns: [],
+    columns: {},
+    columnsOrder: [],
     createdAt: new Date(),
     ownerId: userId,
   };
