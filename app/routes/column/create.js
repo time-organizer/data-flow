@@ -60,8 +60,8 @@ function updateBoardsColumns(req, res, column) {
             message: 'Board could not be updated, removed column',
           });
         })
-        .catch((error) => {
-          logger.error(error);
+        .catch((deleteError) => {
+          logger.error(deleteError);
           res.status(500).send({
             message: 'Board could not be updated, column could not be removed',
           });
@@ -70,7 +70,6 @@ function updateBoardsColumns(req, res, column) {
 }
 
 router.post('/columns', verifyToken, checkNumberOfColumns, (req, res) => {
-  const { userId } = req;
   const {
     title,
     boardId,
@@ -80,7 +79,7 @@ router.post('/columns', verifyToken, checkNumberOfColumns, (req, res) => {
     title,
     boardId,
     createdAt: new Date(),
-    ownerId: userId,
+    tasksOrder: [],
   };
 
   Column.create(newColumn)
