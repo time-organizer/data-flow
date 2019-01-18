@@ -50,12 +50,10 @@ router.post('/tasks', verifyToken, (req, res) => {
   const {
     title,
     columnId,
-    boardId,
   } = req.body;
 
   const newTask = {
     title,
-    boardId,
     columnId,
     createdAt: new Date(),
     ownerId: userId,

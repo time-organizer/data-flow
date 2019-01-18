@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const logger = require('../../../logger');
 
 const verifyToken = require('../../middlewares/verifyToken');
+const getBoardWithColumnsAndTasks =
+  require('../../helpers/getBoardWithColumnsAndTasks');
 const Board = require('../../models/Board');
 const Column = require('../../models/Column');
 const config = require('../../config');
@@ -23,30 +25,24 @@ function checkNumberOfColumns(req, res, next) {
       }
     })
     .catch(error => {
-      console.warn(error);
+      logger.warn(error);
       res.status(500).send({
         message: 'Something went wrong while checking number of columns',
       });
     });
 }
 
-function updateBoardsColumns(req, res, column) {
-  const { _id, boardId, title } = column;
+function updateBoardColumns(req, res, column) {
+  const { _id, boardId } = column;
 
-  Board.findById(boardId)
+  return Board.findById(boardId)
     .then(board => {
-      board.columns = {
-        ...board.columns,
-        [_id]: {
-          _id,
-          title,
-        },
-      };
-
       board.columnsOrder.push(_id);
 
-      board.save()
-        .then(updatedBoard => res.status(200).send(updatedBoard))
+      return board.save()
+        .then(updatedBoard => {
+          return getBoardWithColumnsAndTasks(updatedBoard.toJSON());
+        })
         .catch(error => {
           logger.error(error);
           throw error;
@@ -83,11 +79,14 @@ router.post('/columns', verifyToken, checkNumberOfColumns, (req, res) => {
   };
 
   Column.create(newColumn)
-    .then(createdColumn => {
-      updateBoardsColumns(req, res, createdColumn);
+    .then((createdColumn) => {
+      updateBoardColumns(req, res, createdColumn)
+        .then(updatedBoard => {
+          res.status(200).send(updatedBoard);
+        });
     })
     .catch((error) => {
-      console.warn(error);
+      logger.error(error);
       res.status(500).send({ message: 'Server error' });
     });
 });

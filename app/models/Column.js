@@ -4,6 +4,7 @@ const ColumnSchema = new mongoose.Schema({
   title: { type: String, required: true },
   createdAt: { type: Date, required: true },
   tasksOrder: { type: Array },
+  tasks: { type: Object },
 });
 
 mongoose.model('Column', ColumnSchema);
