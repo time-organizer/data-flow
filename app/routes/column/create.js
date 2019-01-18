@@ -4,8 +4,6 @@ const bodyParser = require('body-parser');
 const logger = require('../../../logger');
 
 const verifyToken = require('../../middlewares/verifyToken');
-const getBoardWithColumnsAndTasks =
-  require('../../helpers/getBoardWithColumnsAndTasks');
 const Board = require('../../models/Board');
 const Column = require('../../models/Column');
 const config = require('../../config');
@@ -40,8 +38,8 @@ function updateBoardColumns(req, res, column) {
       board.columnsOrder.push(_id);
 
       return board.save()
-        .then(updatedBoard => {
-          return getBoardWithColumnsAndTasks(updatedBoard.toJSON());
+        .then(() => {
+          res.status(200).send(column);
         })
         .catch(error => {
           logger.error(error);

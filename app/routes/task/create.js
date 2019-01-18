@@ -21,7 +21,7 @@ function updateColumn(req, res, task) {
       ];
 
       column.save()
-        .then(updatedColumn => res.status(200).send(updatedColumn))
+        .then(() => res.status(200).send(task))
         .catch(error => {
           logger.error(error);
           throw error;
@@ -50,11 +50,13 @@ router.post('/tasks', verifyToken, (req, res) => {
   const {
     title,
     columnId,
+    boardId,
   } = req.body;
 
   const newTask = {
     title,
     columnId,
+    boardId,
     createdAt: new Date(),
     ownerId: userId,
   };
