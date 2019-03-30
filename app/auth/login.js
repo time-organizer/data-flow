@@ -12,7 +12,7 @@ const User = require('../models/User');
 router.post('/login', (req, res) => {
   const { email, password } = req.body;
 
-  User.findOne({ email: email }, (err, user) => {
+  User.findOne({ email: email.toLowerCase() }, (err, user) => {
     if (err) {
       return res.status(500).send({ message: 'Server error.' });
     }

@@ -15,7 +15,7 @@ const User = require('../models/User');
 const checkIfUserExists = (req, res, next) => {
   const { email } = req.body;
 
-  User.find({ email }).then(users => {
+  User.find({ email: email.toLowerCase() }).then(users => {
     if (users.length) {
       return res.status(409).send({
         message: 'User with this email already exists',
@@ -37,7 +37,7 @@ router.post('/sign-up', checkIfUserExists, (req, res) => {
 
   User.create({
     name,
-    email,
+    email: email.toLowerCase(),
     password: hashedPassword,
     confirmed: process.env.NODE_ENV === 'dev',
     createdAt: new Date(),
