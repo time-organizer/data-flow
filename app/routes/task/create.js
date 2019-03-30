@@ -16,8 +16,8 @@ function updateColumn(req, res, task) {
   Column.findById(columnId)
     .then(column => {
       column.tasksOrder = [
-        _id,
         ...column.tasksOrder,
+        _id,
       ];
 
       column.save()
