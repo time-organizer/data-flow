@@ -3,7 +3,6 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const logger = require('../../../logger');
 
-const verifyToken = require('../../middlewares/verifyToken');
 const Column = require('../../models/Column');
 const Task = require('../../models/Task');
 
@@ -45,7 +44,7 @@ function updateColumn(req, res, task) {
     });
 }
 
-router.post('/tasks', verifyToken, (req, res) => {
+router.post('/tasks', (req, res) => {
   const { userId } = req;
   const {
     title,

@@ -3,7 +3,6 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const logger = require('../../../logger');
 
-const verifyToken = require('../../middlewares/verifyToken');
 const Board = require('../../models/Board');
 const getBoardWithColumnsAndTasks =
   require('../../helpers/getBoardWithColumnsAndTasks');
@@ -11,7 +10,7 @@ const getBoardWithColumnsAndTasks =
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-router.get('/boards', verifyToken, (req, res) => {
+router.get('/boards', (req, res) => {
   const { userId } = req;
 
   Board.find({ ownerId: userId })
@@ -24,7 +23,7 @@ router.get('/boards', verifyToken, (req, res) => {
     });
 });
 
-router.get('/boards/:id', verifyToken, (req, res) => {
+router.get('/boards/:id', (req, res) => {
   const { id } = req.params;
 
   Board.findById(id)

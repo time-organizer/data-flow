@@ -3,13 +3,12 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const logger = require('../../../logger');
 
-const verifyToken = require('../../middlewares/verifyToken');
 const Column = require('../../models/Column');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-router.put('/columns/:columnId', verifyToken, (req, res) => {
+router.put('/columns/:columnId', (req, res) => {
   const { columnId } = req.params;
   const { updatedObject, confirmOnly } = req.body;
   const updatedData = {

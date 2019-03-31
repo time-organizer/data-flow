@@ -1,5 +1,6 @@
 require('dotenv').config();
 const fs = require('fs');
+const verifyToken = require('./app/middlewares/verifyToken');
 
 const content = process.env.GCAUTH;
 
@@ -24,7 +25,7 @@ const authRoutes = require('./app/auth');
 app.use('/auth', authRoutes);
 
 const apiRoutes = require('./app/routes/api');
-app.use('/api', apiRoutes);
+app.use('/api', verifyToken, apiRoutes);
 
 app.get('/health', (req, res) => {
   res.send('Time organizer data-flow is fine');

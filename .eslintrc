@@ -5,7 +5,7 @@
     "spread": true,
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true
-    }
+    },
   },
   "rules": {
     "strict": "off"

@@ -3,7 +3,6 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const logger = require('../../../logger');
 
-const verifyToken = require('../../middlewares/verifyToken');
 const Board = require('../../models/Board');
 const Column = require('../../models/Column');
 const config = require('../../config');
@@ -63,7 +62,7 @@ function updateBoardColumns(req, res, column) {
     });
 }
 
-router.post('/columns', verifyToken, checkNumberOfColumns, (req, res) => {
+router.post('/columns', checkNumberOfColumns, (req, res) => {
   const {
     title,
     boardId,

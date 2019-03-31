@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const _ = require('lodash');
-const fs = require('fs');
 const User = require('../../models/User');
-const verifyToken = require('../../middlewares/verifyToken');
 const uploadFile = require('../../middlewares/uploadFile');
 const deleteFile = require('../file/deleteFile');
 
@@ -28,7 +26,7 @@ function replaceUserAvatar(res, id, path) {
   });
 }
 
-router.put('/avatar', verifyToken, uploadFile, (req, res) => {
+router.put('/avatar', uploadFile, (req, res) => {
   const { userId, assetId } = req;
 
   replaceUserAvatar(res, userId, {

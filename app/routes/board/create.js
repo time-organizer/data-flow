@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 
-const verifyToken = require('../../middlewares/verifyToken');
 const Board = require('../../models/Board');
 const config = require('../../config');
 
@@ -28,7 +27,7 @@ function checkNumberOfboards(req, res, next) {
     });
 }
 
-router.post('/boards', verifyToken, checkNumberOfboards, (req, res) => {
+router.post('/boards', checkNumberOfboards, (req, res) => {
   const { userId } = req;
   const {
     title,

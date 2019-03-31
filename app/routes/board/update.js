@@ -3,13 +3,12 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const logger = require('../../../logger');
 
-const verifyToken = require('../../middlewares/verifyToken');
 const Board = require('../../models/Board');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-router.put('/boards/:boardId', verifyToken, (req, res) => {
+router.put('/boards/:boardId', (req, res) => {
   const { boardId } = req.params;
   const { updatedObject, confirmOnly } = req.body;
   const updatedData = {
