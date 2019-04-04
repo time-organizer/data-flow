@@ -66,6 +66,7 @@ router.post('/columns', checkNumberOfColumns, (req, res) => {
   const {
     title,
     boardId,
+    type,
   } = req.body;
 
   const newColumn = {
@@ -73,6 +74,7 @@ router.post('/columns', checkNumberOfColumns, (req, res) => {
     boardId,
     createdAt: new Date(),
     tasksOrder: [],
+    type,
   };
 
   Column.create(newColumn)
