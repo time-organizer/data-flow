@@ -76,7 +76,8 @@ function updateTaskHistory(reorder) {
         updatedAt: Date.now(),
       };
 
-      task.history = history.unshift(historyEntry);
+      history.unshift(historyEntry);
+      task.history = history;
       return task.save();
     })
     .catch(error => {
