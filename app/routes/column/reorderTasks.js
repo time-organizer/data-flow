@@ -62,23 +62,25 @@ function updateColumns(reorder) {
     });
 }
 
-function updateTaskHistory(reorder) {
+function updateTaskHistory(reorder, userId) {
   const {
     taskId,
     columnSourceId,
   } = reorder;
 
-  Task.findById(taskId)
+  return Task.findById(taskId)
     .then(task => {
       const history = Array.from(task.history);
       const historyEntry = {
         columnId: columnSourceId,
         updatedAt: Date.now(),
+        userId,
       };
 
       history.unshift(historyEntry);
       task.history = history;
-      return task.save();
+      task.save();
+      return task;
     })
     .catch(error => {
       logger.error(error);
@@ -90,13 +92,15 @@ router.post('/reorder', (req, res) => {
   const {
     reorder,
   } = req.body;
+  const { userId } = req;
 
   Promise.all([
     updateColumns(reorder),
-    updateTaskHistory(reorder),
+    updateTaskHistory(reorder, userId),
   ])
-    .then(() => {
-      res.status(200).send({ message: 'Success' });
+    .then((results) => {
+      const [updatedColumn, updatedTask] = results;
+      res.status(200).send({ updatedTask });
     })
     .catch(error => {
       res.status(500).send({ error });
