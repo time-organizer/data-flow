@@ -65,14 +65,14 @@ function updateColumns(reorder) {
 function updateTaskHistory(reorder, userId) {
   const {
     taskId,
-    columnSourceId,
+    columnDestinationId,
   } = reorder;
 
   return Task.findById(taskId)
     .then(task => {
       const history = Array.from(task.history);
       const historyEntry = {
-        columnId: columnSourceId,
+        columnId: columnDestinationId,
         updatedAt: Date.now(),
         userId,
       };
