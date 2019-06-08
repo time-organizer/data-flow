@@ -8,8 +8,8 @@ const Label = require('../../models/Label');
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-router.get('/labels', (req, res) => {
-  const { boardId } = req;
+router.get('/labels/:boardId', (req, res) => {
+  const { boardId } = req.params;
 
   Label.find({ boardId })
     .then(labels => {
