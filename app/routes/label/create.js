@@ -22,6 +22,7 @@ router.post('/labels/:boardId', (req, res) => {
     startingDate,
     dueDate,
     color,
+    createdAt: new Date(),
   };
 
   Label.find({ title })

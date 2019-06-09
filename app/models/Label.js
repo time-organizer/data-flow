@@ -5,6 +5,8 @@ const LabelSchema = new mongoose.Schema({
   title: { type: String, required: true },
   dueDate: { type: Date },
   startingDate: { type: Date },
+  color: { type: String },
+  createdAt: { type: Date },
 });
 
 mongoose.model('Label', LabelSchema);

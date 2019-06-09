@@ -11,7 +11,7 @@ router.use(bodyParser.json());
 router.get('/labels/:boardId', (req, res) => {
   const { boardId } = req.params;
 
-  Label.find({ boardId })
+  Label.find({ boardId }).sort([['createdAt', 'descending']])
     .then(labels => {
       res.status(200).send(labels);
     })
