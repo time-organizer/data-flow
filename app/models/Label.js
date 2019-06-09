@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 
 const LabelSchema = new mongoose.Schema({
   boardId: { type: String, required: true },
-  name: { type: String, required: true },
+  title: { type: String, required: true },
   dueDate: { type: Date },
+  startingDate: { type: Date },
 });
 
 mongoose.model('Label', LabelSchema);

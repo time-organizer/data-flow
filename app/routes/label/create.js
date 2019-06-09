@@ -7,22 +7,38 @@ const Label = require('../../models/Label');
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
-router.post('/label', (req, res) => {
+router.post('/labels/:boardId', (req, res) => {
+  const { boardId } = req.params;
   const {
-    boardId,
-    name,
+    title,
+    startingDate,
     dueDate,
+    color,
   } = req.body;
 
   const newLabel = {
     boardId,
-    name,
+    title,
+    startingDate,
     dueDate,
+    color,
   };
 
-  Label.create(newLabel)
-    .then(createdLabel => {
-      res.status(200).send(createdLabel);
+  Label.find({ title })
+    .then((results) => {
+      if (results.length > 0) {
+        res.status(409).send({ message: 'Label with that title already exists' });
+        return;
+      }
+
+      Label.create(newLabel)
+        .then(createdLabel => {
+          res.status(200).send(createdLabel);
+        })
+        .catch((error) => {
+          console.warn(error);
+          res.status(500).send({ message: 'Server error' });
+        });
     })
     .catch((error) => {
       console.warn(error);
