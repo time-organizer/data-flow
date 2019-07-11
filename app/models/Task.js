@@ -6,6 +6,7 @@ const TaskSchema = new mongoose.Schema({
   createdAt: { type: Date, required: true, default: Date.now },
   history: { type: Array },
   labels: { type: Array },
+  description: { type: String, default: '' },
 });
 
 mongoose.model('Task', TaskSchema);

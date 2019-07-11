@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
 const User = require('../models/User');
+const signToken = require('./signToken');
 
 router.post('/login', (req, res) => {
   const { email, password } = req.body;
@@ -30,12 +30,7 @@ router.post('/login', (req, res) => {
     //   return res.status(403).send({ message: 'User not confirmed' });
     // }
 
-    const token = jwt.sign(
-      { id: user._id },
-      process.env.JWT_SECRET, {
-        expiresIn: 86400,
-      }
-    );
+    const token = signToken(user._id, user.email)
 
     res.status(200).send({ token });
   }).select('+password');

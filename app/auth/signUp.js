@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken');
 
 const Mailer = require('../mailer/index');
 const ConfirmationMailBuilder = require('../mailer/ConfirmationMailBuilder');
+const config = require('../config');
+const signToken = require('./signToken');
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
@@ -43,10 +45,7 @@ router.post('/sign-up', checkIfUserExists, (req, res) => {
     createdAt: new Date(),
   })
     .then((user) => {
-      const token = jwt.sign(
-        { id: user._id },
-        process.env.JWT_SECRET,
-        { expiresIn: 86400 });
+      const token = signToken(user._id, user.email);
 
       res.status(200).send({ token });
 

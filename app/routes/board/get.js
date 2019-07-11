@@ -11,11 +11,23 @@ router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 
 router.get('/boards', (req, res) => {
-  const { userId } = req;
+  const { userId, userEmail } = req;
 
   Board.find({ ownerId: userId })
-    .then(boards => {
-      res.status(200).send(boards);
+    .then(ownBoards => {
+      Board.find({ participants: userEmail })
+        .then(participatedBoards => {
+          const boards = [
+            ...ownBoards,
+            ...participatedBoards,
+          ];
+
+          res.status(200).send(boards);
+        })
+        .catch(error => {
+          logger.error(error);
+          res.status(500).send(error);
+        });
     })
     .catch(error => {
       logger.error(error);
