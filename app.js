@@ -7,7 +7,7 @@ const content = process.env.GCAUTH;
 fs.writeFile('google.json', content, (err) => {
   if (err) throw err;
 
-  console.log('Google auth creeated successfully!');
+  console.log('Google auth created successfully!');
 });
 
 const express = require('express');

@@ -41,7 +41,7 @@ router.post('/sign-up', checkIfUserExists, (req, res) => {
     name,
     email: email.toLowerCase(),
     password: hashedPassword,
-    confirmed: process.env.NODE_ENV === 'dev',
+    confirmed: true,
     createdAt: new Date(),
   })
     .then((user) => {

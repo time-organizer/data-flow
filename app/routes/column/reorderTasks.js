@@ -62,7 +62,7 @@ function updateColumns(reorder) {
     });
 }
 
-function updateTaskHistory(reorder, userId) {
+function updateTask(reorder, userId) {
   const {
     taskId,
     columnDestinationId,
@@ -79,6 +79,7 @@ function updateTaskHistory(reorder, userId) {
 
       history.unshift(historyEntry);
       task.history = history;
+      task.columnId = columnDestinationId;
       task.save();
       return task;
     })
@@ -96,7 +97,7 @@ router.post('/reorder', (req, res) => {
 
   Promise.all([
     updateColumns(reorder),
-    updateTaskHistory(reorder, userId),
+    updateTask(reorder, userId),
   ])
     .then((results) => {
       const [updatedColumn, updatedTask] = results;
