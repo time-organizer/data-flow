@@ -19,7 +19,8 @@ function updateSourceColumn(reorder) {
   return Column.findById(columnSourceId)
     .then(column => {
       const tasksOrder = Array.from(column.tasksOrder);
-      tasksOrder.splice(tasksOrder.indexOf(taskId), 1);
+      const currentIndex = _.findIndex(tasksOrder, taskIdEntry => taskId === taskIdEntry.toString());
+      tasksOrder.splice(currentIndex, 1);
       column.tasksOrder = tasksOrder;
 
       return column.save();
@@ -62,7 +63,8 @@ function singleColumnOrderUpdate(reorder) {
   return Column.findById(columnSourceId)
     .then(column => {
       const tasksOrder = Array.from(column.tasksOrder);
-      tasksOrder.splice(tasksOrder.indexOf(taskId), 1);
+      const currentIndex = _.findIndex(tasksOrder, taskIdEntry => taskId === taskIdEntry.toString());
+      tasksOrder.splice(currentIndex, 1);
       tasksOrder.splice(newIndex, 0, taskId);
 
       column.tasksOrder = tasksOrder;
