@@ -52,7 +52,35 @@ function updateDestinationColumn(reorder) {
     });
 }
 
+function singleColumnOrderUpdate(reorder) {
+  const {
+    taskId,
+    columnSourceId,
+    newIndex,
+  } = reorder;
+
+  return Column.findById(columnSourceId)
+    .then(column => {
+      const tasksOrder = Array.from(column.tasksOrder);
+      tasksOrder.splice(tasksOrder.indexOf(taskId), 1);
+      tasksOrder.splice(newIndex, 0, taskId);
+
+      column.tasksOrder = tasksOrder;
+
+      return column.save();
+    })
+    .catch(error => {
+      logger.error(error);
+      throw error;
+    });
+}
+
 function updateColumns(reorder) {
+  const { columnDestinationId, columnSourceId } = reorder;
+  if (columnDestinationId === columnSourceId) {
+    return singleColumnOrderUpdate(reorder);
+  }
+
   return updateSourceColumn(reorder)
     .then(() => {
       return updateDestinationColumn(reorder);

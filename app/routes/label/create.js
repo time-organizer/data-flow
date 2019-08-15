@@ -25,7 +25,7 @@ router.post('/labels/:boardId', (req, res) => {
     createdAt: new Date(),
   };
 
-  Label.find({ title })
+  Label.find({ title, boardId })
     .then((results) => {
       if (results.length > 0) {
         res.status(409).send({ message: 'Label with that title already exists' });
